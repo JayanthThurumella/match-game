@@ -1,0 +1,17 @@
+.tabs {
+  margin: 10px;
+  color: #ffffff;
+  font-size: 22px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: transparent;
+}
+.marked {
+  color: #fec653;
+  text-decoration: underline;
+}
+li {
+  list-style-type: none;
+}
