@@ -11,7 +11,7 @@ const TabItem = props => {
 
   return (
     <li>
-      <button className={`tabs ${marked}`} onClick={clickTabs}>
+      <button className={`tabs ${marked}`} type="button" onClick={clickTabs}>
         {eachItem.displayText}
       </button>
     </li>

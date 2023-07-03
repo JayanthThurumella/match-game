@@ -8,9 +8,21 @@ class MatchGame extends Component {
     num: 0,
     display: false,
     score: 0,
-    firstLoad: 0,
     timer: 60,
     tabId: {tabId: 'FRUIT', displayText: 'Fruits'},
+  }
+
+  componentDidMount() {
+    this.timerStart()
+  }
+
+  componentWillUnmount() {
+    const {score} = this.state
+
+    if (score < 1) {
+      clearInterval(this.timerId)
+      this.setState({display: true})
+    }
   }
 
   showTabs = tabId => {
@@ -24,17 +36,19 @@ class MatchGame extends Component {
   }
 
   timerStart = () => {
-    let {timer} = this.state
+    const {timer} = this.state
+    let reducedTime = timer
     this.timerId = setInterval(() => {
-      if (timer > 0) {
-        timer -= 1
-        this.setState({timer: {timer}})
+      if (reducedTime > 0) {
+        reducedTime -= 1
+        this.setState({timer: reducedTime})
       }
     }, 1000)
   }
 
   playAgain = () => {
-    this.setState({display: false, score: 0})
+    this.setState({display: false, score: 0, timer: 60})
+    this.timerStart()
   }
 
   verifyingMatching = id => {
@@ -44,6 +58,7 @@ class MatchGame extends Component {
       const randomNum = Math.floor(Math.random() * imagesList.length)
       this.setState(prevState => ({num: randomNum, score: prevState.score + 1}))
     } else {
+      clearInterval(this.timerId)
       this.setState({display: true})
     }
   }
@@ -75,7 +90,7 @@ class MatchGame extends Component {
           />
           <ul className="details-container">
             <li className="score-details">
-              <p>Score: </p>
+              <p>Score:</p>
               <p className="numbers">{score}</p>
             </li>
             <li className="timer-details">
@@ -120,9 +135,13 @@ class MatchGame extends Component {
               alt="trophy"
               className="trophy-img"
             />
-            <h1 className="score-heading">YOUR SCORE</h1>
+            <p className="score-heading">YOUR SCORE</p>
             <p className="score">{score}</p>
-            <button className="play-again-button" onClick={this.playAgain}>
+            <button
+              className="play-again-button"
+              type="button"
+              onClick={this.playAgain}
+            >
               <img
                 src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
                 alt="reset"
